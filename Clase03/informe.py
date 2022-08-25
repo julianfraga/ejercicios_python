@@ -44,6 +44,7 @@ camion= leer_camion('../Data/camion.csv')
 
 #%% diccionario como contenedores
 import csv
+
 def leer_precios(nombre_archivo):
     dic_precios={}
     with open('../Data/precios.csv', 'r') as file: 
@@ -54,7 +55,9 @@ def leer_precios(nombre_archivo):
                 precio=float(row[1])
                 dic_precios[fruta]=precio
             except:
+                a=1 #no sé cómo dejar el bloque except vacío                
     return(dic_precios)
+
 path_camion='../Data/camion.csv'
 path_precios='../Data/precios.csv'
 
@@ -82,15 +85,21 @@ for i, fruta in enumerate(camion):
     venta['cajones']*venta['precio']
     costo_parcial=venta['cajones']*venta['precio']-costo_camion
 #%%
-ganancia=0
-for i, diccionario in enumerate(camion):
-    # print(i, diccionario)
-    for indice, fruta in enumerate(precios):
-         # print(indice, fruta)
-        if diccionario['nombre']==fruta:
-            print (fruta, 'el precio de venta' ,precios[fruta], 'y el costo es', diccionario['precio'])
-            cajones=int(diccionario['cajones'])
-            precio_lista=float(diccionario['precio'])
-            precio_venta=float(precios[fruta])
-            ganancia_parcial=cajones*(precio_venta-precio_lista)
-            ganancia=ganancia+ganancia_parcial
+def ganancia(archivo_camion, archivo_precios):
+    ganancia=0
+    camion=leer_camion(archivo_camion)
+    precios=leer_precios(archivo_precios)
+    
+    for i, diccionario in enumerate(camion):
+        # print(i, diccionario)
+        for indice, fruta in enumerate(precios):
+             # print(indice, fruta)
+            if diccionario['nombre']==fruta:
+                # print (fruta, 'el precio de venta' ,precios[fruta], 'y el costo es', diccionario['precio'])
+                cajones=int(diccionario['cajones'])
+                precio_lista=float(diccionario['precio'])
+                precio_venta=float(precios[fruta])
+                ganancia_parcial=cajones*(precio_venta-precio_lista)
+                ganancia=ganancia+ganancia_parcial
+    return(ganancia)
+ganancia('camion.csv', 'precios.csv')

@@ -16,6 +16,6 @@ def geringoso(cadena):
         print(capadepenapa)
     return capadepenapa
 
-
+ 
 
 
