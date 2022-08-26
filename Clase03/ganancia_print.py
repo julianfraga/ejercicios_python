@@ -2,7 +2,7 @@
 """
 Created on Fri Aug 26 01:55:08 2022
 
-@author: Julián Fraga
+@author: Julián
 """
 
 import csv
