@@ -13,11 +13,13 @@ def leer_camion(nombre_archivo, costo=False):
     import csv
     camion=[]
     costo_total=0
-    f=open(nombre_archivo, 'rt')
+    
     with open(nombre_archivo, 'rt') as f:
         filas = csv.reader(f)
         encabezado = next(f).split(',')
         for n_fila, fila in enumerate(filas, start=1):
+            # este diccionario te zippea el encabezado definido antes del loop
+            # con la fila que haya seleccionado esta iteración
             record = dict(zip(encabezado, fila))
             camion.append(record)
             try:
@@ -35,7 +37,7 @@ def leer_camion(nombre_archivo, costo=False):
 def leer_precios(nombre_archivo):
     import csv
     dic_precios={}
-    with open('../Data/precios.csv', 'r') as file: 
+    with open(nombre_archivo, 'r') as file: 
         rows = csv.reader(file)
         for row in rows:
             try:
@@ -53,16 +55,19 @@ def hacer_informe(precios, camion):
         precio_venta= precios[fruta]
         precio_productor=float(dic_camion['precio\n'])
         cambio= precio_venta-precio_productor
+        # el informe es prácticamente el diccionario camión con el agregadodel cambio
         dicc_interino=dic_camion
         dicc_interino['cambio']=cambio
         informe.append(dicc_interino) 
     return informe
 
+# llamo las funciones paraluego imprimir la tabla formateada
 path_camion='../Data/camion.csv'
 path_precios='../Data/precios.csv'
 precios=leer_precios(path_precios)
 camion=leer_camion(path_camion)
 informe=hacer_informe(precios, camion)
+
 
 for campo in list(informe[0].keys()):
     print(f'{campo.strip().capitalize():>10s}',end=' ')

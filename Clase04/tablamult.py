@@ -13,9 +13,9 @@ for i in numeros:
         item+=i            # si no lo pongo me devuelve una tabla de 9x10
         lista.append(item) # pero por qué pasa eso?
     tabla[i]=lista
-tabla
+
 string=' '*6
-for n in tabla.keys():
+for n in tabla.keys(): #armo la fila de encabezados iterando porlas keys de la tabla
     string+=f'{n:>4d}'
 print(string)
 print(('-'*4)*10+('-')*6)
@@ -25,6 +25,6 @@ for key in list(tabla.keys()):
         linea+=f'{tabla[key][i]:>4d}'
         # linea+=' '*5+str(tabla[key][i]).strip('[]')
         linea.strip(',')
-    print(f'{key}:'+4*' '+f'{linea}')
+    print(f'{key:<2d}:'+3*' '+f'{linea}')
 
 
