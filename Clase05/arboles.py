@@ -67,6 +67,7 @@ def listar_especies(parque):
         if especie not in set_especies: #si aún no agregué la especie al set
             set_especies.add(especie) # la agrego
     return(set_especies)
+listar_especies(parque)
 #%%
 # Ejercicio 4.15
 def contar_ejemplares(lista_arboles):
@@ -87,3 +88,40 @@ if nombre_parque=='GENERAL PAZ' and conteo['Palo borracho rosado']==44:
     print('Yay!')
 else:
     print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah!!')
+#%%
+def leer_arbol(nombre_archivo):
+    import csv
+    arboleda=[]
+    def ignorar_keys(diccionario, keys):
+        return {x: diccionario[x] for x in diccionario if x not in keys}
+    keys_excluir={'long', 'lat', 'espacio_ve', 'coord_x', 'coord_y'}
+    with open(nombre_archivo, 'rt', encoding="utf8") as f:
+        filas = csv.reader(f)
+        encabezado = next(f).split(',')
+        for n_fila, fila in enumerate(filas, start=1):
+            record = dict(zip(encabezado, fila))
+            # me saco el \n de encima de la última llave renombrándola
+            record['coord_y'] = record.pop('coord_y\n') 
+            record=ignorar_keys(record, keys_excluir)
+            arboleda.append(record)
+    return arboleda
+    
+nombre_archivo='../Data/arbolado.csv'
+arboleda=leer_arbol(nombre_archivo)
+#%%
+def alt_diam(arboleda, especie):
+    lista=[(float(arbol['altura_tot']), float(arbol['diametro'])) for arbol in arboleda if arbol['nombre_com']==especie]
+    return lista
+
+def medidas_de_especies(arboleda, especies):
+    medidas=[]
+    for especie in especies:
+        filas=alt_diam(arboleda, especie)
+        record={especie:filas}
+        medidas.append(record)
+    return medidas
+especies=['Eucalipto', 'Palo borracho rosado', 'Jacarandá']
+nombre_archivo='../Data/arbolado.csv'
+arboleda=leer_arbol(nombre_archivo)
+medidas=medidas_de_especies(arboleda, especies)
+
