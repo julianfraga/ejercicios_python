@@ -50,7 +50,7 @@ def leer_parque(nombre_archivo, parque):
 
         return parque_lista
     
-archivo='../Data/arbolado.csv'
+archivo='./Data/arbolado.csv'
 nombre_parque='GENERAL PAZ'
 parque=leer_parque(archivo, nombre_parque)
 if nombre_parque=='GENERAL PAZ' and len(parque)==690:
@@ -106,7 +106,7 @@ def leer_arbol(nombre_archivo):
             arboleda.append(record)
     return arboleda
     
-nombre_archivo='../Data/arbolado.csv'
+nombre_archivo='./Data/arbolado.csv'
 arboleda=leer_arbol(nombre_archivo)
 #%%
 def alt_diam(arboleda, especie):
@@ -121,7 +121,7 @@ def medidas_de_especies(arboleda, especies):
         medidas.append(record)
     return medidas
 especies=['Eucalipto', 'Palo borracho rosado', 'Jacarandá']
-nombre_archivo='../Data/arbolado.csv'
+nombre_archivo='./Data/arbolado.csv'
 arboleda=leer_arbol(nombre_archivo)
 medidas=medidas_de_especies(arboleda, especies)
 
