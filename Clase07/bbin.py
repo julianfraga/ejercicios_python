@@ -63,7 +63,7 @@ def donde_insertar(lista, x, verbose = False):
     Devuelve p tal que lista[p] == x, si x está en lista
     '''
     if verbose:
-        print(f'[DEBUG] izq |der |medio')
+        print('[DEBUG] izq |der |medio')
     pos = -1 # Inicializo respuesta, el valor no fue encontrado
     izq = 0
     der = len(lista) - 1
