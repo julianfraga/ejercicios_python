@@ -17,6 +17,12 @@ Changelog
 14/10:
     +leer_camion y leer_precios son compatibles con la última versión de
      fileparse.parse_csv()
+
+9/11:
+    +Agrego formateadores
+    +Tengo problemas con ejecutando el archivo como función principal desde
+    cmd porque algo mal tengo en el environment local. Por esto mismo no pude
+    debugear así que no estoy seguro de si corre bien por linea de comandos
 """
 import fileparse as fp
 import gzip
@@ -69,47 +75,46 @@ def hacer_informe(camion, precios):
     return lista
 
 
-def imprimir_informe(nombre_archivo1, nombre_archivo2):
-    ''' imprime el informe '''
-    camion = leer_camion(nombre_archivo1)
-    precios = leer_precios(nombre_archivo2)
-    informe = hacer_informe(camion, precios)
-
-    print('    Nombre    Cajones     Precio     Cambio')
-    print('---------- ---------- ---------- ----------')
-    for nombre, cajones, precio, cambio in informe:
-        precio = f'${precio}'
-        print(f'{nombre:>10s} {cajones:>10d} {precio:>10s} {cambio:>10.2f}')
-    
-    return
-
-def imprimir_informe2(data_informe, formateador):
+def imprimir_informe(data_informe, formateador):
     '''
     Imprime una tabla prolija desde una lista de tuplas
     con (nombre, cajones, precio, diferencia) 
     '''
-    camion = leer_camion(data_informe[0])
-    precios = leer_precios(data_informe[1])
-    informe = hacer_informe(camion, precios)
     
     formateador.encabezado(['Nombre', 'Cantidad', 'Precio', 'Cambio'])
-    for nombre, cajones, precio, cambio in informe:
+    for nombre, cajones, precio, cambio in data_informe:
         rowdata = [nombre, str(cajones), f'{precio:0.2f}', f'{cambio:0.2f}']
         formateador.fila(rowdata)
 
-def informe_camion(nombreArchivoCamion, nombreArchivoPrecios):
-    imprimir_informe(nombreArchivoCamion, nombreArchivoPrecios)
+def informe_camion(archivo_camion, archivo_precios, fmt = 'txt'):
+    '''
+    Crea un informe a partir de un archivo de camión
+    y otro de precios de venta.
+    '''
+    # Leer archivos con datos
+    camion = leer_camion(archivo_camion)
+    precios = dict(leer_precios(archivo_precios))
+
+    # Crear los datos para el informe
+    data_informe = hacer_informe(camion, precios)
+    
+    # Elige formato
+    formateador = formato_tabla.crear_formateador(fmt)
+    
+    # Imprime el informe
+    imprimir_informe(data_informe, formateador)
 
 
-def funcion_principal(argumentos):
+
+def funcion_principal(argumentos, fmt):
     try:
         nombreArchivoCamion=argumentos[1]
         nombreArchivoPrecios=argumentos[2]
-        imprimir_informe(nombreArchivoCamion, nombreArchivoPrecios)
+        imprimir_informe(nombreArchivoCamion, nombreArchivoPrecios, fmt)
     except Exception as e:
         print('No se pudo ejecutar por el siguiente motivo:',e)
 
 
-# if __name__ == '__main__':
-#     import sys
-#     funcion_principal(sys.argv)
+if __name__ == '__main__':
+    import sys
+    funcion_principal(sys.argv, fmt='txt')

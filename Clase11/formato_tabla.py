@@ -11,58 +11,65 @@ Es un comienzo. Por alguna razón cuando llamo FormatoTabla.encabezado(headers)
 tengo que ponerle algún valor como primer argumento para que ande. Consultar
 
 """
-
 class FormatoTabla:
-    def __init__(self):
-        self.headers=None
-        self.rowdata=None
-        
     def encabezado(self, headers):
         '''
         Crea el encabezado de la tabla.
         '''
-        encabezado=''
-        for columna in headers:
-            encabezado+=f'{columna:>12}'
-        print(encabezado)
-        print('   ---------'*len(headers))
-        # raise NotImplementedError()
+        raise NotImplementedError()
 
     def fila(self, rowdata):
         '''
         Crea una única fila de datos de la tabla.
         '''
-        fila_actual=''
-        for data in rowdata:
-            fila_actual+=f'{data:>12}'
-        print(fila_actual)
-        
         raise NotImplementedError()
-#%%
-from informe_final import leer_camion, leer_precios, hacer_informe
 
-def imprimir_informe2(data_informe, formateador):
+
+class FormatoTablaTXT(FormatoTabla):
     '''
-    Imprime una tabla prolija desde una lista de tuplas
-    con (nombre, cajones, precio, diferencia) 
+    Generar una tabla en formato TXT
     '''
-    camion = leer_camion(data_informe[0])
-    precios = leer_precios(data_informe[1])
-    informe = hacer_informe(camion, precios)
+    def encabezado(self, headers):
+        for h in headers:
+            print(f'{h:>10s}', end=' ')
+        print()
+        print(('-'*10 + ' ')*len(headers))
+
+    def fila(self, data_fila):
+        for d in data_fila:
+            print(f'{d:>10s}', end=' ')
+        print()
+
+class FormatoTablaCSV(FormatoTabla):
+    '''
+    Generar una tabla en formato CSV
+    '''
+    def encabezado(self, headers):
+        print(','.join(headers))
+
+    def fila(self, data_fila):
+        print(','.join(data_fila))
+
+class FormatoTablaHTML(FormatoTabla):
+    '''
+    Genera una tabla en formato HTML
+    '''
+    def encabezado(self, headers):
+        header_html = '<th>'+'</th><th>'.join(headers)+'</th>'
+        print('<tr>'+header_html+'</tr>')
     
-    formateador.encabezado(['Nombre', 'Cantidad', 'Precio', 'Cambio'])
-    for nombre, cajones, precio, cambio in informe:
-        rowdata = [nombre, str(cajones), f'{precio:0.2f}', f'{cambio:0.2f}']
-        formateador.fila(rowdata)
-        
-data_informe=['../Data/camion.csv', '../Data/precios.csv']
-imprimir_informe2(data_informe, FormatoTabla)
+    def fila(self, data_fila):
+        fila_html='<td>'+'</td><td>'.join(data_fila)+'</td>'
+        print('<tr>'+fila_html+'</tr>')  
 
 
-header=['Nombre', 'Cantidad', 'Precio', 'Cambio']
-FormatoTabla.encabezado(2, header)
-#%%
-
-# formateador=FormatoTabla()
-# formateador.encabezado(['Nombre', 'Cantidad', 'Precio', 'Cambio'])
-# headers=['Nombre', 'Cantidad', 'Precio', 'Cambio']
+def crear_formateador(fmt):
+    if fmt == 'txt':
+        formateador = FormatoTablaTXT()
+    elif fmt == 'csv':
+        formateador = FormatoTablaCSV()
+    elif fmt == 'html':
+        formateador = FormatoTablaHTML()
+    else:
+        raise RuntimeError(f'Unknown format {fmt}')
+    return formateador
