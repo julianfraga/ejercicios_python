@@ -36,15 +36,7 @@ class Cola:
             raise ValueError('La cola esta vacia')
         return self.items.pop(0)
 
-    
-    # reemplazo por definición de casteo a booleano
-    # def esta_vacia(self):
-    #     '''Devuelve 
-    #     True si la cola esta vacia, 
-    #     False si no.'''
-    #     return len(self.items) == 0
-    
-    # Casteos
+    # Casteos y metodos especiales
     
     def __str__(self):
         return f'{self.items}'
@@ -54,6 +46,9 @@ class Cola:
     
     def __bool__(self):
         return len(self.items) != 0
+    
+    def __len__(self):
+         return len(self.items)
              
 
 
@@ -79,9 +74,18 @@ class TorreDeControl:
     def ver_estado(self):
         '''No anda todavía. Quiero que printee las dos listas separadas
         por un salto de línea'''
-
-        print(f'Vuelos esperando para aterrizar: { ", ".join(self.arribos.items) }')
-        print(f'Vuelos esperando para despegar: { ", ".join(self.partidas.items) }')
+        
+        if not self.arribos and not self.partidas:
+            print('No hay vuelos esperando')
+        else:
+            if self.arribos:
+                print(f'Vuelos esperando para aterrizar: { ", ".join(self.arribos.items) }')
+            else:
+                print('No hay vuelos esperando para aterrizar')
+            if self.partidas:
+                print(f'Vuelos esperando para despegar: { ", ".join(self.partidas.items) }')
+            else:
+                print('No hay vuelos esperando para despegar')
     
     def asignar_pista(self):
         '''Desencola arribos. Si no hay más arribos desencola partidas'''
@@ -101,5 +105,4 @@ class TorreDeControl:
     
     def __repr__(self):
         return f'TorreDeControl({self.arribos}, {self.partidas})'
-
 

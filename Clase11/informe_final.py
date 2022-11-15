@@ -26,6 +26,7 @@ Changelog
 """
 import fileparse as fp
 import gzip
+import lote
 import formato_tabla
 
 def leer_camion(nombre_archivo, extension='csv'):
@@ -40,8 +41,9 @@ def leer_camion(nombre_archivo, extension='csv'):
             print(e)
             raise
         
-    camion = fp.parse_csv(archivo, types=[str, int, float])
+    camion_dicts = fp.parse_csv(archivo, types=[str, int, float])
     archivo.close()
+    camion = [lote.Lote(d['nombre'], d['cajones'], d['precio']) for d in camion_dicts]
     return camion
 
 
@@ -66,10 +68,9 @@ def leer_precios(nombre_archivo, extension='csv'):
 def hacer_informe(camion, precios):
     lista = []
     
-    for lote in camion:
-        precio_venta = precios[lote['nombre']]
-        cambio = precio_venta - lote['precio'] 
-        t = (lote['nombre'], lote['cajones'], lote['precio'], cambio)
+    for batch in camion:
+        cambio = precios[batch.nombre] - batch.precio
+        t = (batch.nombre, batch.cajones, batch.precio, cambio)
         lista.append(t)
     
     return lista

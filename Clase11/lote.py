@@ -10,6 +10,7 @@ class Lote:
         self.cajones = cajones
         self.precio = precio
 
+        
     def costo(self):
         return self.cajones * self.precio
 
@@ -22,11 +23,3 @@ class Lote:
 class MiLote(Lote):
     def rematar(self):
         self.vender(self.cajones)
-        
-# armo una lista de lotes. Por qué es práctico esto? no le veo la utilidad
-import informe_final
-camion = informe_final.leer_camion('../Data/camion.csv')
-lista_de_lotes=[]
-for lote in camion:
-    lotecin=Lote(*lote.values())
-    lista_de_lotes.append(lotecin)
