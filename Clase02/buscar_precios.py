@@ -5,10 +5,9 @@ Created on Tue Aug 16 15:15:03 2022
 @author: Julián
 """
 
-def buscar_precios(fruta_input, verbose=True):
+def buscar_precios(fruta_input, verbose=True, path=r'D:\Documentos\UNSAM\Programacion\ejercicios_python\Data')):
     import os
-    os.chdir(r'D:\Documentos\UNSAM\Programacion\ejercicios_python\Data')
-    path=os.getcwd()
+    os.chdir(path)
     f = open(path+r'\precios.csv', 'rt')
     fruta=str(fruta_input)
     token=False
