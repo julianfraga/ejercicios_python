@@ -3,13 +3,10 @@
 Created on Fri Oct 21 16:52:25 2022
 
 @author: Julián
-"""
-import pandas as pd
-df_veredas=pd.read_csv(r'../Data/arbolado_lineal.csv')
-df_parques=pd.read_csv(r'../Data/arbolado.csv')
+Contexto: 
+Se tienen dos datasets del arbolado de la ciudad de Buenos Aires
 
-
-'''
+Consigna: 
 Para cada dataset armate otro seleccionando solamente las filas correspondientes
  a las tipas (llamalos df_tipas_parques y df_tipas_veredas, respectivamente) y 
  las columnas correspondientes al diametro a la altura del pecho y alturas. 
@@ -19,7 +16,10 @@ Para cada dataset armate otro seleccionando solamente las filas correspondientes
  
  Renombrá las columnas que muestran la altura y el diámetro a la altura del pecho
  para que se llamen igual en ambos dataframes, para ello explorá el comando rename.
-'''
+"""
+import pandas as pd
+df_veredas=pd.read_csv(r'../Data/arbolado_lineal.csv')
+df_parques=pd.read_csv(r'../Data/arbolado.csv')
 
 # 'Tipuana tipu' in df_veredas['nombre_cientifico'].unique() 
 # 'Tipuana Tipu' in df_parques['nombre_cie'].unique()
